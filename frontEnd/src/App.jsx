@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import ChatInterface from "./components/ChatInterface";
+import CropHealthInterface from "./components/CropHealthInterface";
+import HarvestInterface from "./components/HarvestInterface";
+import SellingInterface from "./components/SellingInterface";
 import { regionOptions } from "./data/options";
 
 const API_BASE_URL = "/api/recommend-crop";
@@ -17,12 +20,36 @@ const defaultFormState = {
 function App() {
   const [formState, setFormState] = useState(defaultFormState);
   const [districts, setDistricts] = useState(regionOptions);
+  
+  // Phase 1 State
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [result, setResult] = useState(null);
   const [sessions, setSessions] = useState([]);
   const [activeFilter, setActiveFilter] = useState(null);
   const [sidebarOpen, setSidebarOpen] = useState(false);
+
+  // App Phase State
+  const [currentPhase, setCurrentPhase] = useState("planning");
+
+  // Phase 2 State
+  const [phase2Loading, setPhase2Loading] = useState(false);
+  const [phase2Error, setPhase2Error] = useState("");
+  const [phase2Result, setPhase2Result] = useState(null);
+  const [phase2Sessions, setPhase2Sessions] = useState([]);
+  const [phase2SidebarOpen, setPhase2SidebarOpen] = useState(false);
+
+  const [harvestLoading, setHarvestLoading] = useState(false);
+  const [harvestError, setHarvestError] = useState("");
+  const [harvestResult, setHarvestResult] = useState(null);
+  const [harvestSessions, setHarvestSessions] = useState([]);
+  const [harvestSidebarOpen, setHarvestSidebarOpen] = useState(false);
+
+  const [sellingLoading, setSellingLoading] = useState(false);
+  const [sellingError, setSellingError] = useState("");
+  const [sellingResult, setSellingResult] = useState(null);
+  const [sellingSessions, setSellingSessions] = useState([]);
+  const [sellingSidebarOpen, setSellingSidebarOpen] = useState(false);
 
   useEffect(() => {
     let ignore = false;
@@ -86,8 +113,162 @@ function App() {
     setSidebarOpen(false);
   }
 
+  async function handlePhase2Submit(data) {
+    setPhase2Loading(true);
+    setPhase2Error("");
+    setPhase2Result(null);
+
+    try {
+      // In a real app we'd send FormData. For mock phase 2, basic post is fine.
+      const formData = new FormData();
+      if (data.files.report) formData.append("report", data.files.report);
+      Object.keys(data.files.photos || {}).forEach(k => formData.append(`photo_${k}`, data.files.photos[k]));
+      formData.append("answers", JSON.stringify(data.answers));
+
+      const response = await axios.post("/api/crop-health/analyze", formData);
+      setPhase2Result(response.data);
+
+      const session = {
+        id: Date.now(),
+        date: new Date().toLocaleTimeString("en-IN", { hour: "2-digit", minute: "2-digit" }),
+        stage: data.answers.stage || "Analysis",
+        result: response.data
+      };
+      setPhase2Sessions(prev => [session, ...prev]);
+
+    } catch (error) {
+      setPhase2Error(error.response?.data?.error || "Unable to analyze crop health. Please check your connection.");
+    } finally {
+      setPhase2Loading(false);
+    }
+  }
+
+  function handleSelectPhase2Session(session) {
+    setPhase2Result(session.result);
+    setPhase2SidebarOpen(false);
+  }
+
+  async function handleHarvestSubmit(data) {
+    setHarvestLoading(true);
+    setHarvestError("");
+    setHarvestResult(null);
+
+    try {
+      const formData = new FormData();
+      if (data.files.report) formData.append("report", data.files.report);
+      Object.keys(data.files.photos || {}).forEach((key) => formData.append(`photo_${key}`, data.files.photos[key]));
+      formData.append("answers", JSON.stringify(data.answers));
+
+      const response = await axios.post("/api/harvest/analyze", formData);
+      setHarvestResult(response.data);
+
+      const session = {
+        id: Date.now(),
+        date: new Date().toLocaleTimeString("en-IN", { hour: "2-digit", minute: "2-digit" }),
+        stage: response.data.summary?.maturityStage || response.data.cards?.harvestReadiness?.verdict || "Harvest analysis",
+        result: response.data,
+      };
+      setHarvestSessions((prev) => [session, ...prev]);
+    } catch (error) {
+      setHarvestError(error.response?.data?.error || "Unable to analyze harvest readiness. Please check your connection.");
+    } finally {
+      setHarvestLoading(false);
+    }
+  }
+
+  function handleSelectHarvestSession(session) {
+    setHarvestResult(session.result);
+    setHarvestSidebarOpen(false);
+  }
+
+  async function handleSellingSubmit(data) {
+    setSellingLoading(true);
+    setSellingError("");
+    setSellingResult(null);
+
+    try {
+      const formData = new FormData();
+      Object.keys(data.files.photos || {}).forEach((key) => formData.append(`photo_${key}`, data.files.photos[key]));
+      formData.append("answers", JSON.stringify(data.answers));
+
+      const response = await axios.post("/api/selling/analyze", formData);
+      setSellingResult(response.data);
+
+      const session = {
+        id: Date.now(),
+        date: new Date().toLocaleTimeString("en-IN", { hour: "2-digit", minute: "2-digit" }),
+        crop: response.data.summary?.cropType || "Selling analysis",
+        readiness: response.data.cards?.saleReadiness?.rating || "Review",
+        result: response.data,
+      };
+      setSellingSessions((prev) => [session, ...prev]);
+    } catch (error) {
+      setSellingError(error.response?.data?.error || "Unable to analyze selling conditions. Please check your connection.");
+    } finally {
+      setSellingLoading(false);
+    }
+  }
+
+  function handleSelectSellingSession(session) {
+    setSellingResult(session.result);
+    setSellingSidebarOpen(false);
+  }
+
+  if (currentPhase === "health") {
+    return (
+      <CropHealthInterface
+        currentPhase={currentPhase}
+        onPhaseChange={setCurrentPhase}
+        sessions={phase2Sessions}
+        onSelectSession={handleSelectPhase2Session}
+        sidebarOpen={phase2SidebarOpen}
+        onToggleSidebar={() => setPhase2SidebarOpen(!phase2SidebarOpen)}
+        onSubmit={handlePhase2Submit}
+        loading={phase2Loading}
+        errorMessage={phase2Error}
+        result={phase2Result}
+      />
+    );
+  }
+
+  if (currentPhase === "harvesting") {
+    return (
+      <HarvestInterface
+        currentPhase={currentPhase}
+        onPhaseChange={setCurrentPhase}
+        sessions={harvestSessions}
+        onSelectSession={handleSelectHarvestSession}
+        sidebarOpen={harvestSidebarOpen}
+        onToggleSidebar={() => setHarvestSidebarOpen(!harvestSidebarOpen)}
+        onSubmit={handleHarvestSubmit}
+        loading={harvestLoading}
+        errorMessage={harvestError}
+        result={harvestResult}
+      />
+    );
+  }
+
+  if (currentPhase === "selling") {
+    return (
+      <SellingInterface
+        currentPhase={currentPhase}
+        onPhaseChange={setCurrentPhase}
+        sessions={sellingSessions}
+        onSelectSession={handleSelectSellingSession}
+        sidebarOpen={sellingSidebarOpen}
+        onToggleSidebar={() => setSellingSidebarOpen(!sellingSidebarOpen)}
+        onSubmit={handleSellingSubmit}
+        loading={sellingLoading}
+        errorMessage={sellingError}
+        result={sellingResult}
+      />
+    );
+  }
+
   return (
     <ChatInterface
+      currentPhase={currentPhase}
+      onPhaseChange={setCurrentPhase}
       formState={formState}
       districts={districts}
       onFieldChange={updateField}

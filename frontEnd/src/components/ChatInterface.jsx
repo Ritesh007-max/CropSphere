@@ -3,8 +3,10 @@ import {
 } from "lucide-react";
 import InputBox from "./InputBox";
 import RecommendationCards from "./RecommendationCards";
+import PhaseNavigation from "./PhaseNavigation";
 
 function ChatInterface({
+  currentPhase, onPhaseChange,
   formState, districts, onFieldChange, onSubmit, loading, errorMessage, result,
   sessions, onSelectSession, activeFilter, onFilterChange, sidebarOpen, onToggleSidebar,
 }) {
@@ -41,8 +43,10 @@ function ChatInterface({
             </button>
           </div>
 
+          <PhaseNavigation currentPhase={currentPhase} onPhaseChange={onPhaseChange} className="mb-5" />
+
           {/* Features mini cards */}
-          <div className="space-y-1 mt-5">
+          <div className="space-y-1">
             {[
               { icon: <CloudSun size={15} />, label: "Live Weather", desc: "Open-Meteo API" },
               { icon: <Zap size={15} />, label: "Smart Scoring", desc: "6-factor algorithm" },
@@ -118,18 +122,15 @@ function ChatInterface({
       {/* ===== MAIN CONTENT ===== */}
       <main className="flex-1 min-w-0">
         {/* Top Bar */}
-        <header className="sticky top-0 z-30 bg-white/80 backdrop-blur-xl border-b border-gray-200/60">
-          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5 flex items-center justify-between gap-4">
+        <div className="w-full sticky top-0 z-30 bg-white/80 backdrop-blur-xl border-b border-gray-200/60 py-3">
+          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between gap-4">
             <div className="flex items-center gap-3">
               <button onClick={onToggleSidebar} className="lg:hidden p-2 rounded-xl hover:bg-gray-100 text-gray-500 transition-colors">
                 <Menu size={20} />
               </button>
               <div className="flex items-center gap-3">
-                <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-brand-500 to-brand-600 flex items-center justify-center text-white shadow-md shadow-brand-500/20 lg:hidden">
-                  <Sprout size={17} />
-                </div>
                 <div className="hidden sm:block">
-                  <h2 className="font-display font-bold text-gray-900 text-[15px] leading-tight">AgriMind AI</h2>
+                  <h2 className="font-display font-bold text-gray-900 text-[15px] leading-tight">Pre-season Planning</h2>
                   <p className="text-[12px] text-gray-400">AI-powered crop decision support</p>
                 </div>
               </div>
@@ -153,7 +154,7 @@ function ChatInterface({
               <span className="sm:hidden">{loading ? "..." : "Analyze"}</span>
             </button>
           </div>
-        </header>
+        </div>
 
         {/* Main Content Area */}
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
