@@ -20,42 +20,29 @@ function App() {
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [result, setResult] = useState(null);
+  const [sessions, setSessions] = useState([]);
+  const [activeFilter, setActiveFilter] = useState(null);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   useEffect(() => {
     let ignore = false;
-
     axios
       .get(`${API_BASE_URL}/regions`)
       .then((response) => {
-        if (!ignore) {
-          setDistricts(response.data);
-        }
+        if (!ignore) setDistricts(response.data);
       })
       .catch(() => {
-        if (!ignore) {
-          setDistricts(regionOptions);
-        }
+        if (!ignore) setDistricts(regionOptions);
       });
-
-    return () => {
-      ignore = true;
-    };
+    return () => { ignore = true; };
   }, []);
 
   function updateField(field, value) {
     setFormState((current) => {
       if (field === "state") {
-        return {
-          ...current,
-          state: value,
-          district: (districts[value] || [])[0] || "",
-        };
+        return { ...current, state: value, district: (districts[value] || [])[0] || "" };
       }
-
-      return {
-        ...current,
-        [field]: value,
-      };
+      return { ...current, [field]: value };
     });
   }
 
@@ -63,19 +50,40 @@ function App() {
     setLoading(true);
     setErrorMessage("");
     setResult(null);
+    setActiveFilter(null);
 
     try {
       const response = await axios.post(`${API_BASE_URL}/farm-input`, formState);
-      setResult(response.data);
+      const data = response.data;
+      setResult(data);
+
+      // Save to session history
+      const session = {
+        id: Date.now(),
+        timestamp: new Date().toLocaleTimeString("en-IN", { hour: "2-digit", minute: "2-digit" }),
+        state: formState.state,
+        district: formState.district,
+        topCrop: data.top_crops?.[0]?.crop || "N/A",
+        score: data.top_crops?.[0]?.suitability_score || 0,
+        result: data,
+        formState: { ...formState },
+      };
+      setSessions((prev) => [session, ...prev]);
     } catch (error) {
-      console.error("Recommendation request failed", error);
       const nextMessage =
         error.response?.data?.error ||
-        "Unable to reach the recommendation API. Start the backend server on http://localhost:5000 and retry.";
+        "Unable to reach the recommendation API. Ensure the backend is running on port 5000.";
       setErrorMessage(nextMessage);
     } finally {
       setLoading(false);
     }
+  }
+
+  function handleSelectSession(session) {
+    setResult(session.result);
+    setFormState(session.formState);
+    setActiveFilter(null);
+    setSidebarOpen(false);
   }
 
   return (
@@ -87,6 +95,12 @@ function App() {
       loading={loading}
       errorMessage={errorMessage}
       result={result}
+      sessions={sessions}
+      onSelectSession={handleSelectSession}
+      activeFilter={activeFilter}
+      onFilterChange={setActiveFilter}
+      sidebarOpen={sidebarOpen}
+      onToggleSidebar={() => setSidebarOpen(!sidebarOpen)}
     />
   );
 }
