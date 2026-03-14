@@ -1,12 +1,19 @@
 const express = require("express");
 const cors = require("cors");
+const path = require("path");
 
 const recommendRoute = require("./routes/recommendCrop");
 const cropHealthRoute = require("./routes/cropHealth");
 const harvestRoute = require("./routes/harvest");
 const sellingRoute = require("./routes/selling");
+const connectDB = require("./Config/db");
+
+if (typeof process.loadEnvFile === "function") {
+  process.loadEnvFile(path.join(__dirname, ".env"));
+}
 
 const app = express();
+const PORT = process.env.PORT || 5000;
 
 app.use(cors());
 app.use(express.json());
@@ -16,6 +23,17 @@ app.use("/crop-health", cropHealthRoute);
 app.use("/harvest", harvestRoute);
 app.use("/selling", sellingRoute);
 
-app.listen(5000, () => {
-  console.log("Server running on port 5000");
-});
+async function startServer() {
+  try {
+    await connectDB();
+
+    app.listen(PORT, () => {
+      console.log(`Server running on port ${PORT}`);
+    });
+  } catch (error) {
+    console.error("Failed to start server:", error.message);
+    process.exit(1);
+  }
+}
+
+startServer();

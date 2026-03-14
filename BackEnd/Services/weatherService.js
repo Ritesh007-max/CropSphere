@@ -1,18 +1,17 @@
-const districtCoordinates = require("../data/districtCoordinates.json");
+const DistrictCoordinate = require("../Modules/district");
 
 /**
  * Get latitude and longitude for a given state and district.
  */
-function getCoordinates(state, district) {
-  const stateData = districtCoordinates[state];
-  if (!stateData) {
-    throw new Error(`State "${state}" not found in coordinates database.`);
-  }
+async function getCoordinates(state, district) {
+  const coords = await DistrictCoordinate.findOne(
+    { state, district },
+    { _id: 0, lat: 1, lon: 1 }
+  ).lean();
 
-  const coords = stateData[district];
   if (!coords) {
     throw new Error(
-      `District "${district}" not found in state "${state}". Available: ${Object.keys(stateData).join(", ")}`
+      `District "${district}" in state "${state}" was not found in MongoDB.`
     );
   }
 
@@ -67,7 +66,7 @@ async function fetchWeather(latitude, longitude) {
  * Combines coordinate lookup + API fetch.
  */
 async function getWeatherForDistrict(state, district) {
-  const { lat, lon } = getCoordinates(state, district);
+  const { lat, lon } = await getCoordinates(state, district);
   const weather = await fetchWeather(lat, lon);
 
   return {

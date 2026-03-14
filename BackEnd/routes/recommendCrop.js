@@ -98,8 +98,16 @@ router.get("/recommend-crops", async (req, res) => {
  * GET /recommend-crop/regions
  * Returns the list of states and districts.
  */
-router.get("/regions", (_req, res) => {
-  res.json(getRegionOptions());
+router.get("/regions", async (_req, res) => {
+  try {
+    const regions = await getRegionOptions();
+    res.json(regions);
+  } catch (error) {
+    console.error("Region fetch error:", error.message);
+    res.status(500).json({
+      error: error.message || "Unable to fetch regions",
+    });
+  }
 });
 
 module.exports = router;

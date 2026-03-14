@@ -1,10 +1,25 @@
-const crops = require("../data/crops.json");
-const regions = require("../data/regions.json");
+const Crop = require("../Modules/crops");
+const Region = require("../Modules/region");
 const { getWeatherForDistrict } = require("./weatherService");
 const { calculateCropScore } = require("../utils/scoring");
 
-function getRegionOptions() {
-  return regions;
+async function getRegionOptions() {
+  const regionRows = await Region.find({}, { _id: 0, state: 1, district: 1 })
+    .sort({ state: 1, district: 1 })
+    .lean();
+
+  if (regionRows.length === 0) {
+    throw new Error("No regions found in MongoDB. Seed the database first.");
+  }
+
+  return regionRows.reduce((acc, row) => {
+    if (!acc[row.state]) {
+      acc[row.state] = [];
+    }
+
+    acc[row.state].push(row.district);
+    return acc;
+  }, {});
 }
 
 /**
@@ -39,7 +54,15 @@ async function recommendCrops(input) {
   }
 
   // Step 2: Score every crop in the dataset
-  const scoredCrops = crops.map((crop) => calculateCropScore(input, crop, weather));
+  const crops = await Crop.find({}).lean();
+
+  if (crops.length === 0) {
+    throw new Error("No crops found in MongoDB. Seed the database first.");
+  }
+
+  const scoredCrops = crops.map((crop) =>
+    calculateCropScore(input, crop, weather)
+  );
 
   // Step 3: Sort by suitability score (descending)
   scoredCrops.sort((a, b) => b.suitability_score - a.suitability_score);
