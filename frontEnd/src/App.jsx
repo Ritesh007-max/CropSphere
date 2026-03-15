@@ -5,6 +5,7 @@ import CropHealthInterface from "./components/CropHealthInterface";
 import HarvestInterface from "./components/HarvestInterface";
 import SellingInterface from "./components/SellingInterface";
 import AuthInterface from "./components/AuthInterface";
+import SubscriptionInterface from "./components/SubscriptionInterface";
 import { regionOptions } from "./data/options";
 
 const API_BASE_URL = "/api/recommend-crop";
@@ -331,6 +332,19 @@ function App() {
         loading={sellingLoading}
         errorMessage={sellingError}
         result={sellingResult}
+        user={user}
+        onLogout={handleLogout}
+      />
+    );
+  }
+
+  if (currentPhase === "subscription") {
+    return (
+      <SubscriptionInterface
+        currentPhase={currentPhase}
+        onPhaseChange={setCurrentPhase}
+        sidebarOpen={sellingSidebarOpen}
+        onToggleSidebar={() => setSellingSidebarOpen(!sellingSidebarOpen)}
         user={user}
         onLogout={handleLogout}
       />

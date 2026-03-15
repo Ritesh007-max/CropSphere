@@ -1,10 +1,11 @@
-import { Sprout, Activity, Wheat, BadgeIndianRupee } from "lucide-react";
+import { Sprout, Activity, Wheat, BadgeIndianRupee, Crown } from "lucide-react";
 
 const PHASES = [
   { key: "planning", label: "Phase 1: Planning", icon: Sprout },
   { key: "health", label: "Phase 2: Health", icon: Activity },
   { key: "harvesting", label: "Phase 3: Harvesting", icon: Wheat },
   { key: "selling", label: "Phase 4: Selling", icon: BadgeIndianRupee },
+  { key: "subscription", label: "Subscription", icon: Crown },
 ];
 
 function PhaseNavigation({ currentPhase, onPhaseChange, className = "" }) {
