@@ -1,5 +1,5 @@
 import {
-  Sprout, Bot, LoaderCircle, Menu, X, Clock, ChevronRight, Zap, CloudSun, BarChart3, RefreshCw, Shield
+  Sprout, Bot, LoaderCircle, Menu, X, Clock, ChevronRight, Zap, CloudSun, BarChart3, RefreshCw, Shield, LogOut
 } from "lucide-react";
 import InputBox from "./InputBox";
 import RecommendationCards from "./RecommendationCards";
@@ -9,6 +9,7 @@ function ChatInterface({
   currentPhase, onPhaseChange,
   formState, districts, onFieldChange, onSubmit, loading, errorMessage, result,
   sessions, onSelectSession, activeFilter, onFilterChange, sidebarOpen, onToggleSidebar,
+  user, onLogout,
 }) {
   return (
     <div className="flex min-h-screen">
@@ -112,6 +113,21 @@ function ChatInterface({
 
         {/* Sidebar Footer */}
         <div className="p-4 border-t border-brand-900/40">
+          {user && (
+            <div className="flex items-center justify-between mb-3 px-1">
+              <div className="min-w-0">
+                <p className="text-[13px] font-medium text-brand-200 truncate">{user.name}</p>
+                <p className="text-[11px] text-brand-500 truncate">{user.email}</p>
+              </div>
+              <button
+                onClick={onLogout}
+                title="Sign out"
+                className="p-2 rounded-lg hover:bg-red-500/15 text-brand-500 hover:text-red-400 transition-colors flex-shrink-0"
+              >
+                <LogOut size={16} />
+              </button>
+            </div>
+          )}
           <div className="text-center">
             <p className="text-[11px] text-brand-500 font-medium">Built for Indian Farmers 🇮🇳</p>
             <p className="text-[10px] text-brand-700 mt-0.5">Powered by Open-Meteo Weather API</p>
