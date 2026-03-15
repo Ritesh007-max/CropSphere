@@ -7,6 +7,7 @@ const cropHealthRoute = require("./routes/cropHealth");
 const harvestRoute = require("./routes/harvest");
 const sellingRoute = require("./routes/selling");
 const authRoute = require("./routes/auth");
+const schemesRoute = require("./routes/schemes");
 const connectDB = require("./Config/db");
 
 if (typeof process.loadEnvFile === "function") {
@@ -24,6 +25,7 @@ app.use("/crop-health", cropHealthRoute);
 app.use("/harvest", harvestRoute);
 app.use("/selling", sellingRoute);
 app.use("/auth", authRoute);
+app.use("/schemes", schemesRoute);
 
 async function startServer() {
   try {

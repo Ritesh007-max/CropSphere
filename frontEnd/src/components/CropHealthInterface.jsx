@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { Menu, X, Clock, Activity, LoaderCircle, LogOut } from "lucide-react";
+import { useTranslation } from "react-i18next";
 import PhaseNavigation from "./PhaseNavigation";
+import LanguageSelector from "./LanguageSelector";
 import GuidedQuestions from "./GuidedQuestions";
 import ActionCardsPhase2 from "./ActionCardsPhase2";
 
@@ -18,6 +20,7 @@ function CropHealthInterface({
   user,
   onLogout,
 }) {
+  const { t } = useTranslation();
   const [answers, setAnswers] = useState({});
 
   const handleAnswerChange = (field, value) => {
@@ -92,15 +95,15 @@ function CropHealthInterface({
           )}
         </div>
 
-        {/* Sidebar Footer */}
         <div className="p-4 border-t border-brand-900/40">
+          <LanguageSelector />
           {user && (
             <div className="flex items-center justify-between mb-3 px-1">
               <div className="min-w-0">
                 <p className="text-[13px] font-medium text-brand-200 truncate">{user.name}</p>
                 <p className="text-[11px] text-brand-500 truncate">{user.email}</p>
               </div>
-              <button onClick={onLogout} title="Sign out" className="p-2 rounded-lg hover:bg-red-500/15 text-brand-500 hover:text-red-400 transition-colors flex-shrink-0">
+              <button onClick={onLogout} title={t("common.signOut")} className="p-2 rounded-lg hover:bg-red-500/15 text-brand-500 hover:text-red-400 transition-colors flex-shrink-0">
                 <LogOut size={16} />
               </button>
             </div>

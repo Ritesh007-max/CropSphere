@@ -4,6 +4,7 @@ import ChatInterface from "./components/ChatInterface";
 import CropHealthInterface from "./components/CropHealthInterface";
 import HarvestInterface from "./components/HarvestInterface";
 import SellingInterface from "./components/SellingInterface";
+import SchemesInterface from "./components/SchemesInterface";
 import AuthInterface from "./components/AuthInterface";
 import { regionOptions } from "./data/options";
 
@@ -291,6 +292,17 @@ function App() {
         loading={sellingLoading}
         errorMessage={sellingError}
         result={sellingResult}
+        user={user}
+        onLogout={handleLogout}
+      />
+    );
+  }
+
+  if (currentPhase === "schemes") {
+    return (
+      <SchemesInterface
+        currentPhase={currentPhase}
+        onPhaseChange={setCurrentPhase}
         user={user}
         onLogout={handleLogout}
       />

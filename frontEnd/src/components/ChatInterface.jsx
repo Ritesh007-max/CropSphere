@@ -1,9 +1,11 @@
 import {
   Sprout, Bot, LoaderCircle, Menu, X, Clock, ChevronRight, Zap, CloudSun, BarChart3, RefreshCw, Shield, LogOut
 } from "lucide-react";
+import { useTranslation } from "react-i18next";
 import InputBox from "./InputBox";
 import RecommendationCards from "./RecommendationCards";
 import PhaseNavigation from "./PhaseNavigation";
+import LanguageSelector from "./LanguageSelector";
 
 function ChatInterface({
   currentPhase, onPhaseChange,
@@ -11,6 +13,8 @@ function ChatInterface({
   sessions, onSelectSession, activeFilter, onFilterChange, sidebarOpen, onToggleSidebar,
   user, onLogout,
 }) {
+  const { t } = useTranslation();
+
   return (
     <div className="flex min-h-screen">
       {/* Mobile overlay */}
@@ -35,8 +39,8 @@ function ChatInterface({
                 <Sprout size={20} />
               </div>
               <div>
-                <h1 className="font-display font-bold text-lg leading-tight">AgriMind AI</h1>
-                <p className="text-[11px] text-brand-300/70 tracking-wide uppercase">Crop Intelligence</p>
+                <h1 className="font-display font-bold text-lg leading-tight">{t("common.appName")}</h1>
+                <p className="text-[11px] text-brand-300/70 tracking-wide uppercase">{t("common.tagline")}</p>
               </div>
             </div>
             <button onClick={onToggleSidebar} className="lg:hidden p-1.5 rounded-lg hover:bg-white/10 text-brand-300">
@@ -49,11 +53,11 @@ function ChatInterface({
           {/* Features mini cards */}
           <div className="space-y-1">
             {[
-              { icon: <CloudSun size={15} />, label: "Live Weather", desc: "Open-Meteo API" },
-              { icon: <Zap size={15} />, label: "Smart Scoring", desc: "6-factor algorithm" },
-              { icon: <BarChart3 size={15} />, label: "25 Crops DB", desc: "Cost & yield data" },
-              { icon: <RefreshCw size={15} />, label: "Crop Rotation", desc: "Rotation rules" },
-              { icon: <Shield size={15} />, label: "Risk Analysis", desc: "Weather + market" },
+              { icon: <CloudSun size={15} />, label: t("planning.sidebar.liveWeather"), desc: t("planning.sidebar.liveWeatherDesc") },
+              { icon: <Zap size={15} />, label: t("planning.sidebar.smartScoring"), desc: t("planning.sidebar.smartScoringDesc") },
+              { icon: <BarChart3 size={15} />, label: t("planning.sidebar.cropsDb"), desc: t("planning.sidebar.cropsDbDesc") },
+              { icon: <RefreshCw size={15} />, label: t("planning.sidebar.rotation"), desc: t("planning.sidebar.rotationDesc") },
+              { icon: <Shield size={15} />, label: t("planning.sidebar.risk"), desc: t("planning.sidebar.riskDesc") },
             ].map((item, i) => (
               <div key={i} className="flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-white/[0.04] transition-colors group">
                 <div className="w-8 h-8 rounded-lg bg-white/[0.06] flex items-center justify-center text-brand-400 group-hover:text-brand-300 transition-colors">
@@ -72,13 +76,13 @@ function ChatInterface({
         <div className="flex-1 px-4 pb-2">
           <div className="flex items-center gap-2 px-2 mb-3 mt-2">
             <Clock size={13} className="text-brand-500" />
-            <span className="text-[11px] font-semibold uppercase tracking-widest text-brand-500">Recent Plans</span>
+            <span className="text-[11px] font-semibold uppercase tracking-widest text-brand-500">{t("planning.recentPlans")}</span>
           </div>
 
           {sessions.length === 0 ? (
             <div className="px-3 py-4 text-center">
-              <p className="text-[12px] text-brand-600">No sessions yet</p>
-              <p className="text-[11px] text-brand-700 mt-1">Run your first analysis above</p>
+              <p className="text-[12px] text-brand-600">{t("planning.noSessions")}</p>
+              <p className="text-[11px] text-brand-700 mt-1">{t("planning.noSessionsDesc")}</p>
             </div>
           ) : (
             <div className="space-y-1.5">
@@ -113,6 +117,7 @@ function ChatInterface({
 
         {/* Sidebar Footer */}
         <div className="p-4 border-t border-brand-900/40">
+          <LanguageSelector />
           {user && (
             <div className="flex items-center justify-between mb-3 px-1">
               <div className="min-w-0">
@@ -121,7 +126,7 @@ function ChatInterface({
               </div>
               <button
                 onClick={onLogout}
-                title="Sign out"
+                title={t("common.signOut")}
                 className="p-2 rounded-lg hover:bg-red-500/15 text-brand-500 hover:text-red-400 transition-colors flex-shrink-0"
               >
                 <LogOut size={16} />
@@ -129,8 +134,8 @@ function ChatInterface({
             </div>
           )}
           <div className="text-center">
-            <p className="text-[11px] text-brand-500 font-medium">Built for Indian Farmers 🇮🇳</p>
-            <p className="text-[10px] text-brand-700 mt-0.5">Powered by Open-Meteo Weather API</p>
+            <p className="text-[11px] text-brand-500 font-medium">{t("common.builtFor")}</p>
+            <p className="text-[10px] text-brand-700 mt-0.5">{t("common.poweredBy")}</p>
           </div>
         </div>
       </aside>
@@ -146,8 +151,8 @@ function ChatInterface({
               </button>
               <div className="flex items-center gap-3">
                 <div className="hidden sm:block">
-                  <h2 className="font-display font-bold text-gray-900 text-[15px] leading-tight">Pre-season Planning</h2>
-                  <p className="text-[12px] text-gray-400">AI-powered crop decision support</p>
+                  <h2 className="font-display font-bold text-gray-900 text-[15px] leading-tight">{t("planning.title")}</h2>
+                  <p className="text-[12px] text-gray-400">{t("planning.subtitle")}</p>
                 </div>
               </div>
             </div>
@@ -166,8 +171,8 @@ function ChatInterface({
                 transition-all duration-200"
             >
               {loading ? <LoaderCircle size={16} className="spinner" /> : <Bot size={16} />}
-              <span className="hidden sm:inline">{loading ? "Analyzing..." : "Generate Crop Recommendations"}</span>
-              <span className="sm:hidden">{loading ? "..." : "Analyze"}</span>
+              <span className="hidden sm:inline">{loading ? t("planning.analyzingBtn") : t("planning.generateBtn")}</span>
+              <span className="sm:hidden">{loading ? "..." : t("planning.analyzeBtn")}</span>
             </button>
           </div>
         </div>
@@ -182,8 +187,8 @@ function ChatInterface({
                 <div className="loader-dot w-2.5 h-2.5 rounded-full bg-brand-500"></div>
                 <div className="loader-dot w-2.5 h-2.5 rounded-full bg-brand-500"></div>
               </div>
-              <p className="font-display font-semibold text-brand-800 text-lg">Analyzing your farm conditions...</p>
-              <p className="text-sm text-brand-600/80 mt-2">Fetching live weather data, evaluating 25 crops across 6 scoring factors</p>
+              <p className="font-display font-semibold text-brand-800 text-lg">{t("planning.loadingTitle")}</p>
+              <p className="text-sm text-brand-600/80 mt-2">{t("planning.loadingDesc")}</p>
             </div>
           )}
 

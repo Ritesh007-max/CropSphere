@@ -4,10 +4,12 @@ import {
   Sprout, Mail, Lock, User, Eye, EyeOff, LoaderCircle,
   CloudSun, Zap, BarChart3, Shield, Leaf, TrendingUp, ArrowRight
 } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 const API_AUTH_URL = "/api/auth";
 
 function AuthInterface({ onLogin }) {
+  const { t } = useTranslation();
   const [isSignup, setIsSignup] = useState(false);
   const [form, setForm] = useState({ name: "", email: "", password: "", confirmPassword: "" });
   const [loading, setLoading] = useState(false);
@@ -50,17 +52,17 @@ function AuthInterface({ onLogin }) {
   }
 
   const features = [
-    { icon: <CloudSun size={22} />, title: "Live Weather", desc: "Real-time Open-Meteo weather data for your district" },
-    { icon: <Zap size={22} />, title: "Smart Scoring", desc: "6-factor algorithm evaluates 25+ crops for your farm" },
-    { icon: <BarChart3 size={22} />, title: "Market Insights", desc: "Cost, yield, and selling price analysis per crop" },
-    { icon: <Shield size={22} />, title: "Risk Analysis", desc: "Weather and market risk assessment before planting" },
+    { icon: <CloudSun size={22} />, title: t("auth.feature1"), desc: t("auth.feature1Desc") },
+    { icon: <Zap size={22} />, title: t("auth.feature2"), desc: t("auth.feature2Desc") },
+    { icon: <BarChart3 size={22} />, title: t("auth.feature3"), desc: t("auth.feature3Desc") },
+    { icon: <Shield size={22} />, title: t("auth.feature4"), desc: t("auth.feature4Desc") },
   ];
 
   const stats = [
-    { value: "25+", label: "Crops Analyzed" },
-    { value: "6", label: "Scoring Factors" },
-    { value: "4", label: "Smart Phases" },
-    { value: "100%", label: "Free to Use" },
+    { value: "25+", label: t("auth.cropsAnalyzed") },
+    { value: "6", label: t("auth.scoringFactors") },
+    { value: "4", label: t("auth.smartPhases") },
+    { value: "100%", label: t("auth.freeToUse") },
   ];
 
   return (
@@ -72,13 +74,13 @@ function AuthInterface({ onLogin }) {
             <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-brand-500 to-brand-600 flex items-center justify-center shadow-lg shadow-brand-500/20">
               <Sprout size={18} className="text-white" />
             </div>
-            <span className="font-display font-bold text-lg text-gray-900">AgriMind AI</span>
+            <span className="font-display font-bold text-lg text-gray-900">{t("common.appName")}</span>
           </div>
           <a
             href="#auth-section"
             className="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-gradient-to-r from-brand-600 to-brand-500 text-white text-[13px] font-semibold shadow-md shadow-brand-500/20 hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200"
           >
-            Get Started <ArrowRight size={14} />
+            {t("auth.getStarted")} <ArrowRight size={14} />
           </a>
         </div>
       </nav>
@@ -92,15 +94,14 @@ function AuthInterface({ onLogin }) {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative">
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-brand-50 border border-brand-200 text-brand-700 text-[12px] font-semibold mb-6 animate-fade-in">
             <Leaf size={14} />
-            AI-Powered Crop Intelligence for Indian Farmers
+            {t("auth.badge")}
           </div>
           <h1 className="font-display font-bold text-4xl sm:text-5xl lg:text-6xl text-gray-900 leading-tight mb-5 animate-fade-in">
-            Grow smarter,<br />
-            <span className="text-gradient">harvest better</span>
+            {t("auth.heroTitle1")}<br />
+            <span className="text-gradient">{t("auth.heroTitle2")}</span>
           </h1>
           <p className="text-gray-500 text-base sm:text-lg max-w-2xl mx-auto mb-10 animate-fade-in">
-            Get AI-powered crop recommendations based on real-time weather, soil conditions, and market data.
-            From planning to selling — every farming decision, simplified.
+            {t("auth.heroDesc")}
           </p>
 
           {/* Stats row */}
@@ -139,13 +140,13 @@ function AuthInterface({ onLogin }) {
       <section className="py-12 sm:py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="bg-gradient-to-br from-brand-600 via-brand-500 to-brand-600 rounded-3xl p-8 sm:p-12 text-white shadow-xl shadow-brand-600/20">
-            <h2 className="font-display font-bold text-2xl sm:text-3xl mb-8 text-center">4 Smart Phases</h2>
+            <h2 className="font-display font-bold text-2xl sm:text-3xl mb-8 text-center">{t("auth.fourPhases")}</h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
               {[
-                { step: "01", title: "Planning", desc: "AI recommends the best crops for your farm based on location, budget, and weather." },
-                { step: "02", title: "Crop Health", desc: "Monitor your crop's health with guided diagnostic tools and AI scoring." },
-                { step: "03", title: "Harvesting", desc: "Get harvest readiness scores, labour planning, and weather risk alerts." },
-                { step: "04", title: "Selling", desc: "Analyze market conditions and get pricing & logistics recommendations." },
+                { step: "01", title: t("auth.phasePlanningTitle"), desc: t("auth.phasePlanningDesc") },
+                { step: "02", title: t("auth.phaseHealthTitle"), desc: t("auth.phaseHealthDesc") },
+                { step: "03", title: t("auth.phaseHarvestTitle"), desc: t("auth.phaseHarvestDesc") },
+                { step: "04", title: t("auth.phaseSellingTitle"), desc: t("auth.phaseSellingDesc") },
               ].map((phase, i) => (
                 <div key={i} className="bg-white/10 backdrop-blur-sm rounded-2xl p-5 border border-white/15 hover:bg-white/15 transition-colors">
                   <div className="w-9 h-9 rounded-lg bg-white/20 flex items-center justify-center text-[13px] font-bold mb-3">
@@ -168,22 +169,22 @@ function AuthInterface({ onLogin }) {
             <div className="animate-fade-in">
               <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-50 border border-brand-200 text-brand-700 text-[11px] font-semibold uppercase tracking-wide mb-4">
                 <TrendingUp size={13} />
-                Start Your Journey
+                {t("auth.startJourney")}
               </div>
               <h2 className="font-display font-bold text-3xl sm:text-4xl text-gray-900 mb-4 leading-tight">
-                {isSignup ? "Join thousands of smart farmers" : "Welcome back, farmer"}
+                {isSignup ? t("auth.joinTitle") : t("auth.welcomeBack")}
               </h2>
               <p className="text-gray-500 text-base mb-8 max-w-md">
                 {isSignup
-                  ? "Create a free account and start making data-driven farming decisions powered by AI and real-time weather."
-                  : "Sign in to access your personalized crop dashboard, weather alerts, and AI recommendations."}
+                  ? t("auth.joinDesc")
+                  : t("auth.welcomeBackDesc")}
               </p>
               <div className="space-y-3">
                 {[
-                  "AI crop scoring with live weather data",
-                  "Harvest readiness & cost estimates",
-                  "Market pricing & selling strategy",
-                  "Completely free — no credit card needed",
+                  t("auth.benefit1"),
+                  t("auth.benefit2"),
+                  t("auth.benefit3"),
+                  t("auth.benefit4"),
                 ].map((item, i) => (
                   <div key={i} className="flex items-center gap-3">
                     <div className="w-5 h-5 rounded-full bg-brand-100 flex items-center justify-center flex-shrink-0">
@@ -201,20 +202,20 @@ function AuthInterface({ onLogin }) {
             <div className="animate-slide-up">
               <div className="bg-white rounded-2xl border border-gray-200/60 shadow-lg shadow-gray-900/[0.04] p-7 sm:p-8">
                 <h3 className="font-display font-bold text-xl text-gray-900 mb-1">
-                  {isSignup ? "Create Account" : "Sign In"}
+                  {isSignup ? t("auth.signUpTitle") : t("auth.signInTitle")}
                 </h3>
                 <p className="text-sm text-gray-400 mb-6">
-                  {isSignup ? "Fill in your details to get started" : "Enter your credentials"}
+                  {isSignup ? t("auth.signUpDesc") : t("auth.signInDesc")}
                 </p>
 
                 <form onSubmit={handleSubmit} className="space-y-4">
                   {isSignup && (
                     <div>
-                      <label htmlFor="auth-name" className="block text-[13px] font-medium text-gray-700 mb-1.5">Full Name</label>
+                      <label htmlFor="auth-name" className="block text-[13px] font-medium text-gray-700 mb-1.5">{t("auth.fullName")}</label>
                       <div className="relative">
                         <User size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400" />
                         <input
-                          id="auth-name" type="text" placeholder="e.g. Ramesh Kumar"
+                          id="auth-name" type="text" placeholder={t("auth.namePlaceholder")}
                           value={form.name} onChange={(e) => updateField("name", e.target.value)}
                           className="w-full pl-10 pr-4 py-3 rounded-xl bg-surface-100 border border-gray-200 text-gray-900 placeholder-gray-400 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500/30 focus:border-brand-500 transition-all duration-200"
                         />
@@ -223,11 +224,11 @@ function AuthInterface({ onLogin }) {
                   )}
 
                   <div>
-                    <label htmlFor="auth-email" className="block text-[13px] font-medium text-gray-700 mb-1.5">Email Address</label>
+                    <label htmlFor="auth-email" className="block text-[13px] font-medium text-gray-700 mb-1.5">{t("auth.email")}</label>
                     <div className="relative">
                       <Mail size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400" />
                       <input
-                        id="auth-email" type="email" placeholder="you@example.com"
+                        id="auth-email" type="email" placeholder={t("auth.emailPlaceholder")}
                         value={form.email} onChange={(e) => updateField("email", e.target.value)}
                         className="w-full pl-10 pr-4 py-3 rounded-xl bg-surface-100 border border-gray-200 text-gray-900 placeholder-gray-400 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500/30 focus:border-brand-500 transition-all duration-200"
                       />
@@ -235,11 +236,11 @@ function AuthInterface({ onLogin }) {
                   </div>
 
                   <div>
-                    <label htmlFor="auth-password" className="block text-[13px] font-medium text-gray-700 mb-1.5">Password</label>
+                    <label htmlFor="auth-password" className="block text-[13px] font-medium text-gray-700 mb-1.5">{t("auth.password")}</label>
                     <div className="relative">
                       <Lock size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400" />
                       <input
-                        id="auth-password" type={showPassword ? "text" : "password"} placeholder="Minimum 6 characters"
+                        id="auth-password" type={showPassword ? "text" : "password"} placeholder={t("auth.passwordPlaceholder")}
                         value={form.password} onChange={(e) => updateField("password", e.target.value)}
                         className="w-full pl-10 pr-11 py-3 rounded-xl bg-surface-100 border border-gray-200 text-gray-900 placeholder-gray-400 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500/30 focus:border-brand-500 transition-all duration-200"
                       />
@@ -251,11 +252,11 @@ function AuthInterface({ onLogin }) {
 
                   {isSignup && (
                     <div>
-                      <label htmlFor="auth-confirm-password" className="block text-[13px] font-medium text-gray-700 mb-1.5">Confirm Password</label>
+                      <label htmlFor="auth-confirm-password" className="block text-[13px] font-medium text-gray-700 mb-1.5">{t("auth.confirmPassword")}</label>
                       <div className="relative">
                         <Lock size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400" />
                         <input
-                          id="auth-confirm-password" type={showPassword ? "text" : "password"} placeholder="Re-enter your password"
+                          id="auth-confirm-password" type={showPassword ? "text" : "password"} placeholder={t("auth.confirmPlaceholder")}
                           value={form.confirmPassword} onChange={(e) => updateField("confirmPassword", e.target.value)}
                           className="w-full pl-10 pr-4 py-3 rounded-xl bg-surface-100 border border-gray-200 text-gray-900 placeholder-gray-400 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500/30 focus:border-brand-500 transition-all duration-200"
                         />
@@ -275,15 +276,15 @@ function AuthInterface({ onLogin }) {
                     className="w-full inline-flex items-center justify-center gap-2.5 py-3.5 rounded-full bg-gradient-to-r from-brand-600 to-brand-500 text-white font-semibold text-sm shadow-lg shadow-brand-500/25 hover:shadow-xl hover:shadow-brand-500/30 hover:-translate-y-0.5 disabled:opacity-60 disabled:cursor-wait disabled:hover:translate-y-0 transition-all duration-200"
                   >
                     {loading ? <LoaderCircle size={16} className="spinner" /> : null}
-                    {loading ? "Please wait..." : isSignup ? "Create Account" : "Sign In"}
+                    {loading ? "..." : isSignup ? t("auth.signUpBtn") : t("auth.signInBtn")}
                   </button>
                 </form>
 
                 <div className="mt-5 text-center">
                   <p className="text-sm text-gray-500">
-                    {isSignup ? "Already have an account?" : "Don't have an account?"}{" "}
+                    {isSignup ? t("auth.hasAccount") : t("auth.noAccount")}{" "}
                     <button type="button" onClick={toggleMode} className="text-brand-600 hover:text-brand-700 font-semibold transition-colors">
-                      {isSignup ? "Sign In" : "Create Account"}
+                      {isSignup ? t("auth.signInLink") : t("auth.createAccount")}
                     </button>
                   </p>
                 </div>
@@ -301,9 +302,9 @@ function AuthInterface({ onLogin }) {
               <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-brand-500 to-brand-600 flex items-center justify-center">
                 <Sprout size={18} />
               </div>
-              <span className="font-display font-bold text-base">AgriMind AI</span>
+              <span className="font-display font-bold text-base">{t("common.appName")}</span>
             </div>
-            <p className="text-[12px] text-brand-500">Built for Indian Farmers 🇮🇳 · Powered by Open-Meteo Weather API</p>
+            <p className="text-[12px] text-brand-500">{t("common.builtFor")} · {t("common.poweredBy")}</p>
           </div>
         </div>
       </footer>

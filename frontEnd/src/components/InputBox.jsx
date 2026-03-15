@@ -1,7 +1,10 @@
 import { MapPin, Landmark, Tractor, IndianRupee, Users, Wheat } from "lucide-react";
+import { useTranslation } from "react-i18next";
 import { previousCropOptions } from "../data/options";
 
 function InputBox({ formState, districts, onFieldChange }) {
+  const { t } = useTranslation();
+
   return (
     <div className="space-y-5 animate-fade-in">
       {/* Hero Banner */}
@@ -10,14 +13,13 @@ function InputBox({ formState, districts, onFieldChange }) {
         <div className="absolute bottom-0 left-0 w-40 h-40 rounded-full bg-brand-400/10 blur-2xl translate-y-1/2 -translate-x-1/4" />
         <div className="relative">
           <span className="inline-block text-[11px] font-semibold uppercase tracking-widest text-brand-200 bg-white/10 px-3 py-1 rounded-full mb-4">
-            AgriMind AI — Decision Engine
+            {t("planning.heroTag")}
           </span>
           <h1 className="font-display font-bold text-2xl sm:text-3xl leading-tight mb-2">
-            Grow smarter, harvest better
+            {t("planning.heroTitle")}
           </h1>
           <p className="text-brand-100/80 max-w-lg text-sm leading-relaxed">
-            Enter your farm details below and AgriMind AI will analyse real-time weather, 
-            evaluate 25 crops, and recommend the top 3 best-fit options for your farm.
+            {t("planning.heroDesc")}
           </p>
         </div>
       </section>
@@ -31,31 +33,31 @@ function InputBox({ formState, districts, onFieldChange }) {
               <MapPin size={16} />
             </div>
             <div>
-              <h3 className="font-display font-semibold text-sm text-gray-900">Farm Location</h3>
-              <p className="text-[11px] text-gray-400">Where is your farm?</p>
+              <h3 className="font-display font-semibold text-sm text-gray-900">{t("input.farmLocation")}</h3>
+              <p className="text-[11px] text-gray-400">{t("input.farmLocationDesc")}</p>
             </div>
           </div>
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <label className="block text-[12px] font-medium text-gray-500 mb-1.5">State</label>
+              <label className="block text-[12px] font-medium text-gray-500 mb-1.5">{t("input.state")}</label>
               <select id="input-state" value={formState.state}
                 onChange={(e) => onFieldChange("state", e.target.value)}
                 className="w-full px-3 py-2.5 rounded-xl border border-gray-200 bg-surface-100 text-sm text-gray-800 focus:outline-none focus:ring-2 focus:ring-brand-500/20 focus:border-brand-400 transition-all hover:border-gray-300"
               >
-                <option value="">Select state</option>
+                <option value="">{t("input.selectState")}</option>
                 {Object.keys(districts).map((state) => (
                   <option key={state} value={state}>{state}</option>
                 ))}
               </select>
             </div>
             <div>
-              <label className="block text-[12px] font-medium text-gray-500 mb-1.5">District</label>
+              <label className="block text-[12px] font-medium text-gray-500 mb-1.5">{t("input.district")}</label>
               <select id="input-district" value={formState.district}
                 onChange={(e) => onFieldChange("district", e.target.value)}
                 disabled={!formState.state}
                 className="w-full px-3 py-2.5 rounded-xl border border-gray-200 bg-surface-100 text-sm text-gray-800 focus:outline-none focus:ring-2 focus:ring-brand-500/20 focus:border-brand-400 transition-all hover:border-gray-300 disabled:opacity-50"
               >
-                <option value="">Select district</option>
+                <option value="">{t("input.selectDistrict")}</option>
                 {(districts[formState.state] || []).map((d) => (
                   <option key={d} value={d}>{d}</option>
                 ))}
@@ -71,15 +73,15 @@ function InputBox({ formState, districts, onFieldChange }) {
               <Landmark size={16} />
             </div>
             <div>
-              <h3 className="font-display font-semibold text-sm text-gray-900">Land Area</h3>
-              <p className="text-[11px] text-gray-400">How much land do you have?</p>
+              <h3 className="font-display font-semibold text-sm text-gray-900">{t("input.landArea")}</h3>
+              <p className="text-[11px] text-gray-400">{t("input.landAreaDesc")}</p>
             </div>
           </div>
           <div className="space-y-3">
             <div className="flex items-center justify-between">
-              <label className="text-[12px] font-medium text-gray-500">Acreage</label>
+              <label className="text-[12px] font-medium text-gray-500">{t("input.acreage")}</label>
               <span className="text-sm font-display font-bold text-brand-700 bg-brand-50 px-3 py-1 rounded-lg">
-                {formState.landArea} acres
+                {formState.landArea} {t("input.acres")}
               </span>
             </div>
             <input
@@ -103,13 +105,13 @@ function InputBox({ formState, districts, onFieldChange }) {
               <IndianRupee size={16} />
             </div>
             <div>
-              <h3 className="font-display font-semibold text-sm text-gray-900">Budget</h3>
-              <p className="text-[11px] text-gray-400">Your total farming budget</p>
+              <h3 className="font-display font-semibold text-sm text-gray-900">{t("input.budget")}</h3>
+              <p className="text-[11px] text-gray-400">{t("input.budgetDesc")}</p>
             </div>
           </div>
           <div className="space-y-3">
             <div className="flex items-center justify-between">
-              <label className="text-[12px] font-medium text-gray-500">Total Budget</label>
+              <label className="text-[12px] font-medium text-gray-500">{t("input.totalBudget")}</label>
               <span className="text-sm font-display font-bold text-emerald-700 bg-emerald-50 px-3 py-1 rounded-lg">
                 ₹{Number(formState.budget).toLocaleString("en-IN")}
               </span>
@@ -135,33 +137,33 @@ function InputBox({ formState, districts, onFieldChange }) {
               <Users size={16} />
             </div>
             <div>
-              <h3 className="font-display font-semibold text-sm text-gray-900">Labour & History</h3>
-              <p className="text-[11px] text-gray-400">Resources & previous crop</p>
+              <h3 className="font-display font-semibold text-sm text-gray-900">{t("input.labourHistory")}</h3>
+              <p className="text-[11px] text-gray-400">{t("input.labourHistoryDesc")}</p>
             </div>
           </div>
           <div className="grid grid-cols-2 gap-3">
             <div>
               <label className="block text-[12px] font-medium text-gray-500 mb-1.5">
-                <span className="flex items-center gap-1"><Tractor size={12} /> Labour</span>
+                <span className="flex items-center gap-1"><Tractor size={12} /> {t("input.labour")}</span>
               </label>
               <select id="input-labour" value={formState.labour}
                 onChange={(e) => onFieldChange("labour", e.target.value)}
                 className="w-full px-3 py-2.5 rounded-xl border border-gray-200 bg-surface-100 text-sm text-gray-800 focus:outline-none focus:ring-2 focus:ring-brand-500/20 focus:border-brand-400 transition-all hover:border-gray-300"
               >
-                <option value="low">Low</option>
-                <option value="medium">Medium</option>
-                <option value="high">High</option>
+                <option value="low">{t("input.low")}</option>
+                <option value="medium">{t("input.medium")}</option>
+                <option value="high">{t("input.high")}</option>
               </select>
             </div>
             <div>
               <label className="block text-[12px] font-medium text-gray-500 mb-1.5">
-                <span className="flex items-center gap-1"><Wheat size={12} /> Previous Crop</span>
+                <span className="flex items-center gap-1"><Wheat size={12} /> {t("input.previousCrop")}</span>
               </label>
               <select id="input-previous-crop" value={formState.previousCrop}
                 onChange={(e) => onFieldChange("previousCrop", e.target.value)}
                 className="w-full px-3 py-2.5 rounded-xl border border-gray-200 bg-surface-100 text-sm text-gray-800 focus:outline-none focus:ring-2 focus:ring-brand-500/20 focus:border-brand-400 transition-all hover:border-gray-300"
               >
-                <option value="">None / Skip</option>
+                <option value="">{t("input.noneSkip")}</option>
                 {previousCropOptions.map((crop) => (
                   <option key={crop} value={crop}>{crop}</option>
                 ))}

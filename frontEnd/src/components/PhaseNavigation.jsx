@@ -1,18 +1,22 @@
-import { Sprout, Activity, Wheat, BadgeIndianRupee } from "lucide-react";
+import { Sprout, Activity, Wheat, BadgeIndianRupee, Landmark } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 const PHASES = [
-  { key: "planning", label: "Phase 1: Planning", icon: Sprout },
-  { key: "health", label: "Phase 2: Health", icon: Activity },
-  { key: "harvesting", label: "Phase 3: Harvesting", icon: Wheat },
-  { key: "selling", label: "Phase 4: Selling", icon: BadgeIndianRupee },
+  { key: "planning", tKey: "nav.phase1", icon: Sprout },
+  { key: "health", tKey: "nav.phase2", icon: Activity },
+  { key: "harvesting", tKey: "nav.phase3", icon: Wheat },
+  { key: "selling", tKey: "nav.phase4", icon: BadgeIndianRupee },
+  { key: "schemes", tKey: "nav.phase5", icon: Landmark },
 ];
 
 function PhaseNavigation({ currentPhase, onPhaseChange, className = "" }) {
+  const { t } = useTranslation();
+
   return (
     <div className={className}>
       <div className="rounded-2xl border border-white/10 bg-white/[0.04] p-2">
         <div className="mb-2 px-2">
-          <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-brand-400">Workspace</p>
+          <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-brand-400">{t("nav.workspace")}</p>
         </div>
         <div className="space-y-1.5">
           {PHASES.map((phase) => {
@@ -33,7 +37,7 @@ function PhaseNavigation({ currentPhase, onPhaseChange, className = "" }) {
                 <span className={`flex h-9 w-9 items-center justify-center rounded-lg ${active ? "bg-white/15" : "bg-white/[0.06]"}`}>
                   <Icon size={16} />
                 </span>
-                <span>{phase.label}</span>
+                <span>{t(phase.tKey)}</span>
               </button>
             );
           })}
