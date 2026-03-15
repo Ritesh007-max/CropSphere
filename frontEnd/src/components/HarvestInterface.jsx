@@ -141,7 +141,7 @@ function HarvestInterface({
               type="button"
               disabled={loading}
               onClick={handleSubmit}
-              className="inline-flex items-center justify-center gap-2.5 px-6 py-3 rounded-full bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-semibold text-[13px] shadow-lg shadow-blue-500/25 hover:shadow-xl hover:-translate-y-0.5 disabled:opacity-60 transition-all duration-200 sm:self-auto self-stretch"
+              className="inline-flex items-center justify-center gap-2.5 px-6 py-3 rounded-full bg-gradient-to-r from-brand-600 to-brand-500 text-white font-semibold text-[13px] shadow-lg shadow-brand-500/25 hover:shadow-xl hover:-translate-y-0.5 disabled:opacity-60 transition-all duration-200 sm:self-auto self-stretch"
             >
               {loading ? <LoaderCircle size={16} className="spinner" /> : <Activity size={16} />}
               <span className="hidden sm:inline">{loading ? "Analyzing..." : "Generate Harvest Plan"}</span>
@@ -152,12 +152,12 @@ function HarvestInterface({
 
         <div className="w-full max-w-5xl mx-auto px-4 sm:px-6 py-6 sm:py-8">
           {loading ? (
-            <div className="animate-fade-in bg-gradient-to-br from-blue-50 to-indigo-50 border border-blue-200 rounded-3xl p-6 sm:p-8 mb-6 text-center shadow-sm">
+            <div className="animate-fade-in bg-gradient-to-br from-brand-50 to-white border border-brand-200 rounded-3xl p-6 sm:p-8 mb-6 text-center shadow-sm">
               <div className="flex items-center justify-center gap-2 mb-4">
-                <Activity size={28} className="text-blue-500 animate-pulse" />
+                <Activity size={28} className="text-brand-500 animate-pulse" />
               </div>
-              <p className="font-display font-semibold text-blue-900 text-lg">Running harvest readiness analysis...</p>
-              <p className="text-sm text-blue-700/80 mt-2">Scoring crop maturity, labour capacity, storage readiness, and harvest timing risks.</p>
+              <p className="font-display font-semibold text-brand-900 text-lg">Running harvest readiness analysis...</p>
+              <p className="text-sm text-brand-700/80 mt-2">Scoring crop maturity, labour capacity, storage readiness, and harvest timing risks.</p>
             </div>
           ) : null}
 

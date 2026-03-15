@@ -142,7 +142,7 @@ function SellingInterface({
               type="button"
               disabled={loading}
               onClick={handleSubmit}
-              className="inline-flex items-center justify-center gap-2.5 px-6 py-3 rounded-full bg-gradient-to-r from-amber-500 to-orange-500 text-white font-semibold text-[13px] shadow-lg shadow-amber-500/25 hover:shadow-xl hover:-translate-y-0.5 disabled:opacity-60 transition-all duration-200 sm:self-auto self-stretch"
+              className="inline-flex items-center justify-center gap-2.5 px-6 py-3 rounded-full bg-gradient-to-r from-brand-600 to-brand-500 text-white font-semibold text-[13px] shadow-lg shadow-brand-500/25 hover:shadow-xl hover:-translate-y-0.5 disabled:opacity-60 transition-all duration-200 sm:self-auto self-stretch"
             >
               {loading ? <LoaderCircle size={16} className="spinner" /> : <BadgeIndianRupee size={16} />}
               <span className="hidden sm:inline">{loading ? "Analyzing..." : "Generate Selling Plan"}</span>
@@ -153,12 +153,12 @@ function SellingInterface({
 
         <div className="w-full max-w-6xl mx-auto px-4 sm:px-6 py-6 sm:py-8 space-y-6">
           {loading ? (
-            <div className="animate-fade-in bg-gradient-to-br from-amber-50 to-orange-50 border border-amber-200 rounded-3xl p-6 sm:p-8 text-center shadow-sm">
+            <div className="animate-fade-in bg-gradient-to-br from-brand-50 to-white border border-brand-200 rounded-3xl p-6 sm:p-8 text-center shadow-sm">
               <div className="flex items-center justify-center gap-2 mb-4">
-                <BadgeIndianRupee size={28} className="text-amber-500 animate-pulse" />
+                <BadgeIndianRupee size={28} className="text-brand-500 animate-pulse" />
               </div>
-              <p className="font-display font-semibold text-amber-900 text-lg">Building your selling strategy...</p>
-              <p className="text-sm text-amber-700/80 mt-2">Checking quality signals, quantity, price references, and logistics options.</p>
+              <p className="font-display font-semibold text-brand-900 text-lg">Building your selling strategy...</p>
+              <p className="text-sm text-brand-700/80 mt-2">Checking quality signals, quantity, price references, and logistics options.</p>
             </div>
           ) : null}
 

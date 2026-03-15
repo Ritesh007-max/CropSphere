@@ -58,95 +58,95 @@ function SellingCards({ result }) {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
-        <CardShell icon={<PackageCheck size={20} className="text-emerald-700" />} title="Sale Readiness" subtitle="Basic lot readiness check" className="bg-gradient-to-br from-emerald-50 to-lime-50 border-emerald-200/70">
+        <CardShell icon={<PackageCheck size={20} className="text-brand-700" />} title="Sale Readiness" subtitle="Basic lot readiness check" className="bg-gradient-to-br from-brand-50 to-white border-brand-200/70">
           <div className="inline-flex items-center gap-2 rounded-full bg-white/80 px-4 py-2 text-sm font-bold text-gray-900 mb-4">
             {saleReadiness?.rating}
             <span className="text-xs text-gray-500">{saleReadiness?.score}/100</span>
           </div>
-          <p className="text-[13px] text-emerald-950">{saleReadiness?.note}</p>
+          <p className="text-[13px] text-brand-950">{saleReadiness?.note}</p>
         </CardShell>
 
-        <CardShell icon={<Boxes size={20} className="text-amber-700" />} title="Quality Snapshot" subtitle={qualitySnapshot?.rating} className="bg-gradient-to-br from-amber-50 to-orange-50 border-amber-200/70">
+        <CardShell icon={<Boxes size={20} className="text-brand-700" />} title="Quality Snapshot" subtitle={qualitySnapshot?.rating} className="bg-gradient-to-br from-brand-50 to-white border-brand-200/70">
           <div className="space-y-3">
             <div>
-              <p className="text-[12px] font-semibold uppercase tracking-wide text-amber-700 mb-2">Strengths</p>
+              <p className="text-[12px] font-semibold uppercase tracking-wide text-brand-700 mb-2">Strengths</p>
               <div className="space-y-2">
                 {(qualitySnapshot?.strengths || []).map((item) => (
-                  <div key={item} className="bg-white/70 rounded-xl p-3 border border-amber-100 text-[13px] text-amber-950">{item}</div>
+                  <div key={item} className="bg-white/70 rounded-xl p-3 border border-brand-100 text-[13px] text-brand-950">{item}</div>
                 ))}
               </div>
             </div>
             <div>
-              <p className="text-[12px] font-semibold uppercase tracking-wide text-amber-700 mb-2">Watch-outs</p>
+              <p className="text-[12px] font-semibold uppercase tracking-wide text-brand-700 mb-2">Watch-outs</p>
               <div className="space-y-2">
                 {(qualitySnapshot?.defects || ["No major issues flagged"]).map((item) => (
-                  <div key={item} className="bg-white/70 rounded-xl p-3 border border-amber-100 text-[13px] text-amber-950">{item}</div>
+                  <div key={item} className="bg-white/70 rounded-xl p-3 border border-brand-100 text-[13px] text-brand-950">{item}</div>
                 ))}
               </div>
             </div>
           </div>
         </CardShell>
 
-        <CardShell icon={<BadgeIndianRupee size={20} className="text-indigo-700" />} title="Estimated Price Range" subtitle={estimatedPriceRange?.unit} className="bg-gradient-to-br from-indigo-50 to-blue-50 border-indigo-200/70">
-          <p className="text-2xl font-display font-bold text-indigo-950 mb-2">
+        <CardShell icon={<BadgeIndianRupee size={20} className="text-brand-700" />} title="Estimated Price Range" subtitle={estimatedPriceRange?.unit} className="bg-gradient-to-br from-brand-50 to-white border-brand-200/70">
+          <p className="text-2xl font-display font-bold text-brand-950 mb-2">
             {formatCurrency(estimatedPriceRange?.low)} - {formatCurrency(estimatedPriceRange?.high)}
           </p>
-          <p className="text-[13px] text-indigo-900">Expected revenue around {formatCurrency(estimatedPriceRange?.expectedRevenue)}</p>
+          <p className="text-[13px] text-brand-900">Expected revenue around {formatCurrency(estimatedPriceRange?.expectedRevenue)}</p>
         </CardShell>
 
-        <CardShell icon={<ChartColumn size={20} className="text-sky-700" />} title="Historical Price Context" subtitle={historicalPriceContext?.trend} className="bg-gradient-to-br from-sky-50 to-cyan-50 border-sky-200/70">
-          <p className="text-[13px] text-sky-950">{historicalPriceContext?.note}</p>
+        <CardShell icon={<ChartColumn size={20} className="text-brand-700" />} title="Historical Price Context" subtitle={historicalPriceContext?.trend} className="bg-gradient-to-br from-brand-50 to-white border-brand-200/70">
+          <p className="text-[13px] text-brand-950">{historicalPriceContext?.note}</p>
         </CardShell>
 
-        <CardShell icon={<CircleDollarSign size={20} className="text-rose-700" />} title="Cost and Margin View" subtitle="Selling scenario view" className="bg-gradient-to-br from-rose-50 to-pink-50 border-rose-200/70">
+        <CardShell icon={<CircleDollarSign size={20} className="text-brand-700" />} title="Cost and Margin View" subtitle="Selling scenario view" className="bg-gradient-to-br from-brand-50 to-white border-brand-200/70">
           <div className="space-y-2">
-            <div className="bg-white/70 rounded-xl p-3 border border-rose-100 text-[13px] text-rose-950">Best case margin: {formatCurrency(costAndMarginView?.bestCaseMargin)}</div>
-            <div className="bg-white/70 rounded-xl p-3 border border-rose-100 text-[13px] text-rose-950">Average case margin: {formatCurrency(costAndMarginView?.averageCaseMargin)}</div>
-            <div className="bg-white/70 rounded-xl p-3 border border-rose-100 text-[13px] text-rose-950">Cautious case margin: {formatCurrency(costAndMarginView?.cautiousCaseMargin)}</div>
-            <div className="bg-white/70 rounded-xl p-3 border border-rose-100 text-[13px] font-semibold text-rose-950">Estimated selling cost: {formatCurrency(costAndMarginView?.totalSellingCost)}</div>
+            <div className="bg-white/70 rounded-xl p-3 border border-brand-100 text-[13px] text-brand-950">Best case margin: {formatCurrency(costAndMarginView?.bestCaseMargin)}</div>
+            <div className="bg-white/70 rounded-xl p-3 border border-brand-100 text-[13px] text-brand-950">Average case margin: {formatCurrency(costAndMarginView?.averageCaseMargin)}</div>
+            <div className="bg-white/70 rounded-xl p-3 border border-brand-100 text-[13px] text-brand-950">Cautious case margin: {formatCurrency(costAndMarginView?.cautiousCaseMargin)}</div>
+            <div className="bg-white/70 rounded-xl p-3 border border-brand-100 text-[13px] font-semibold text-brand-950">Estimated selling cost: {formatCurrency(costAndMarginView?.totalSellingCost)}</div>
           </div>
         </CardShell>
 
-        <CardShell icon={<Clock3 size={20} className="text-violet-700" />} title="Sell Now vs Store" subtitle="Action recommendation" className="bg-gradient-to-br from-violet-50 to-fuchsia-50 border-violet-200/70">
-          <div className="inline-flex items-center rounded-full bg-white/80 px-4 py-2 text-sm font-bold text-violet-950 mb-4">
+        <CardShell icon={<Clock3 size={20} className="text-brand-700" />} title="Sell Now vs Store" subtitle="Action recommendation" className="bg-gradient-to-br from-brand-50 to-white border-brand-200/70">
+          <div className="inline-flex items-center rounded-full bg-white/80 px-4 py-2 text-sm font-bold text-brand-950 mb-4">
             {sellNowVsStore?.recommendation}
           </div>
-          <p className="text-[13px] text-violet-900">{sellNowVsStore?.rationale}</p>
+          <p className="text-[13px] text-brand-900">{sellNowVsStore?.rationale}</p>
         </CardShell>
 
-        <CardShell icon={<Store size={20} className="text-emerald-700" />} title="Storage Partner Options" subtitle="Platform utility panel" className="bg-gradient-to-br from-emerald-50 to-teal-50 border-emerald-200/70">
+        <CardShell icon={<Store size={20} className="text-brand-700" />} title="Storage Partner Options" subtitle="Platform utility panel" className="bg-gradient-to-br from-brand-50 to-white border-brand-200/70">
           <div className="space-y-3">
             {(storagePartnerOptions?.options || []).map((option) => (
-              <div key={option.name} className="bg-white/70 rounded-xl p-3 border border-emerald-100">
-                <p className="text-[13px] font-bold text-emerald-950">{option.name}</p>
-                <p className="text-[12px] text-emerald-900 mt-1">Capacity: {option.capacity}</p>
-                <p className="text-[12px] text-emerald-900">Cost: {option.cost}</p>
-                <p className="text-[12px] text-emerald-900">Distance: {option.distance}</p>
+              <div key={option.name} className="bg-white/70 rounded-xl p-3 border border-brand-100">
+                <p className="text-[13px] font-bold text-brand-950">{option.name}</p>
+                <p className="text-[12px] text-brand-900 mt-1">Capacity: {option.capacity}</p>
+                <p className="text-[12px] text-brand-900">Cost: {option.cost}</p>
+                <p className="text-[12px] text-brand-900">Distance: {option.distance}</p>
               </div>
             ))}
           </div>
         </CardShell>
 
-        <CardShell icon={<Truck size={20} className="text-orange-700" />} title="Transport Options" subtitle="Platform utility panel" className="bg-gradient-to-br from-orange-50 to-amber-50 border-orange-200/70">
+        <CardShell icon={<Truck size={20} className="text-brand-700" />} title="Transport Options" subtitle="Platform utility panel" className="bg-gradient-to-br from-brand-50 to-white border-brand-200/70">
           <div className="space-y-3">
             {(transportOptions?.options || []).map((option) => (
-              <div key={option.route} className="bg-white/70 rounded-xl p-3 border border-orange-100">
-                <p className="text-[13px] font-bold text-orange-950">{option.route}</p>
-                <p className="text-[12px] text-orange-900 mt-1">{option.vehicle} • {option.eta}</p>
-                <p className="text-[12px] text-orange-900">Estimated cost: {option.cost}</p>
-                <p className="text-[12px] text-orange-900">{option.note}</p>
+              <div key={option.route} className="bg-white/70 rounded-xl p-3 border border-brand-100">
+                <p className="text-[13px] font-bold text-brand-950">{option.route}</p>
+                <p className="text-[12px] text-brand-900 mt-1">{option.vehicle} • {option.eta}</p>
+                <p className="text-[12px] text-brand-900">Estimated cost: {option.cost}</p>
+                <p className="text-[12px] text-brand-900">{option.note}</p>
               </div>
             ))}
           </div>
         </CardShell>
 
-        <CardShell icon={<MapPinned size={20} className="text-sky-700" />} title="Buyer and Contractor Visibility" subtitle={buyerVisibility?.preferredChannel} className="bg-gradient-to-br from-sky-50 to-blue-50 border-sky-200/70">
+        <CardShell icon={<MapPinned size={20} className="text-brand-700" />} title="Buyer and Contractor Visibility" subtitle={buyerVisibility?.preferredChannel} className="bg-gradient-to-br from-brand-50 to-white border-brand-200/70">
           <div className="space-y-3">
             {(buyerVisibility?.buyers || []).map((buyer) => (
-              <div key={buyer.name} className="bg-white/70 rounded-xl p-3 border border-sky-100">
-                <p className="text-[13px] font-bold text-sky-950">{buyer.name}</p>
-                <p className="text-[12px] text-sky-900 mt-1">{buyer.channel} • {buyer.priceRange}</p>
-                <p className="text-[12px] text-sky-900">{buyer.note}</p>
+              <div key={buyer.name} className="bg-white/70 rounded-xl p-3 border border-brand-100">
+                <p className="text-[13px] font-bold text-brand-950">{buyer.name}</p>
+                <p className="text-[12px] text-brand-900 mt-1">{buyer.channel} • {buyer.priceRange}</p>
+                <p className="text-[12px] text-brand-900">{buyer.note}</p>
               </div>
             ))}
           </div>

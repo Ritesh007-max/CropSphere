@@ -1,12 +1,13 @@
-import { Sprout, Activity, Wheat, BadgeIndianRupee, Landmark } from "lucide-react";
+import { Sprout, Activity, Wheat, BadgeIndianRupee, Landmark, Crown } from "lucide-react";
 import { useTranslation } from "react-i18next";
 
 const PHASES = [
-  { key: "planning", tKey: "nav.phase1", icon: Sprout },
-  { key: "health", tKey: "nav.phase2", icon: Activity },
-  { key: "harvesting", tKey: "nav.phase3", icon: Wheat },
-  { key: "selling", tKey: "nav.phase4", icon: BadgeIndianRupee },
-  { key: "schemes", tKey: "nav.phase5", icon: Landmark },
+  { key: "planning", tKey: "nav.phase1", label: "Phase 1: Planning", icon: Sprout },
+  { key: "health", tKey: "nav.phase2", label: "Phase 2: Health", icon: Activity },
+  { key: "harvesting", tKey: "nav.phase3", label: "Phase 3: Harvesting", icon: Wheat },
+  { key: "selling", tKey: "nav.phase4", label: "Phase 4: Selling", icon: BadgeIndianRupee },
+  { key: "schemes", tKey: "nav.phase5", label: "Phase 5: Schemes", icon: Landmark },
+  { key: "subscription", label: "Subscription", icon: Crown },
 ];
 
 function PhaseNavigation({ currentPhase, onPhaseChange, className = "" }) {
@@ -37,7 +38,7 @@ function PhaseNavigation({ currentPhase, onPhaseChange, className = "" }) {
                 <span className={`flex h-9 w-9 items-center justify-center rounded-lg ${active ? "bg-white/15" : "bg-white/[0.06]"}`}>
                   <Icon size={16} />
                 </span>
-                <span>{t(phase.tKey)}</span>
+                <span>{phase.tKey ? t(phase.tKey) : phase.label}</span>
               </button>
             );
           })}
