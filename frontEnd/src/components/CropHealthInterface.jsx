@@ -3,6 +3,7 @@ import { Menu, X, Clock, Activity, LoaderCircle } from "lucide-react";
 import PhaseNavigation from "./PhaseNavigation";
 import GuidedQuestions from "./GuidedQuestions";
 import ActionCardsPhase2 from "./ActionCardsPhase2";
+import PhotoUploader from "./PhotoUploader";
 
 function CropHealthInterface({
   currentPhase,
@@ -17,13 +18,18 @@ function CropHealthInterface({
   result,
 }) {
   const [answers, setAnswers] = useState({});
+  const [files, setFiles] = useState({ photos: {}, report: null });
 
   const handleAnswerChange = (field, value) => {
     setAnswers((prev) => ({ ...prev, [field]: value }));
   };
 
+  const handleFileChange = (field, value) => {
+    setFiles((prev) => ({ ...prev, [field]: value }));
+  };
+
   const handleSubmit = () => {
-    onSubmit({ files: { photos: {}, report: null }, answers });
+    onSubmit({ files, answers });
   };
 
   return (
@@ -136,7 +142,12 @@ function CropHealthInterface({
             </div>
           ) : null}
 
-          {!loading && !result ? <GuidedQuestions answers={answers} onAnswerChange={handleAnswerChange} /> : null}
+          {!loading && !result ? (
+            <>
+              <PhotoUploader files={files} onFileChange={handleFileChange} singleImage />
+              <GuidedQuestions answers={answers} onAnswerChange={handleAnswerChange} />
+            </>
+          ) : null}
 
           {!loading && result ? <ActionCardsPhase2 result={result} /> : null}
         </div>

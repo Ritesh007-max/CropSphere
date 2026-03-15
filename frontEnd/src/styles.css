@@ -12,6 +12,11 @@ body {
   min-height: 100vh;
 }
 
+select,
+input[type="text"] {
+  min-height: 44px;
+}
+
 /* Custom scrollbar */
 ::-webkit-scrollbar {
   width: 6px;
@@ -129,4 +134,29 @@ input[type="range"]::-moz-range-thumb {
   bottom: 0;
   width: 2px;
   background: linear-gradient(to bottom, #22c55e, #e2e8e5);
+}
+
+.location-map {
+  min-height: 260px;
+}
+
+.location-map .gm-style iframe + div {
+  border-radius: 1rem;
+}
+
+.map-pin-marker {
+  position: relative;
+  width: 20px;
+  height: 20px;
+}
+
+.map-pin-marker span {
+  display: block;
+  width: 20px;
+  height: 20px;
+  border-radius: 999px 999px 999px 0;
+  background: linear-gradient(135deg, #22c55e, #15803d);
+  border: 2px solid #ffffff;
+  box-shadow: 0 8px 18px rgba(21, 128, 61, 0.28);
+  transform: rotate(-45deg);
 }

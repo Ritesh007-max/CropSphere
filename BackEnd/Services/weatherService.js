@@ -1,9 +1,21 @@
 const DistrictCoordinate = require("../Modules/district");
+const mongoose = require("mongoose");
+const districtCoordinates = require("../seed-data/districtCoordinates.json");
 
 /**
  * Get latitude and longitude for a given state and district.
  */
 async function getCoordinates(state, district) {
+  if (mongoose.connection.readyState !== 1) {
+    const fallbackCoords = districtCoordinates[state]?.[district];
+
+    if (!fallbackCoords) {
+      throw new Error(`District "${district}" in state "${state}" was not found.`);
+    }
+
+    return fallbackCoords;
+  }
+
   const coords = await DistrictCoordinate.findOne(
     { state, district },
     { _id: 0, lat: 1, lon: 1 }
@@ -25,7 +37,9 @@ async function getCoordinates(state, district) {
 async function fetchWeather(latitude, longitude) {
   const url = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current_weather=true&hourly=precipitation,relativehumidity_2m`;
 
-  const response = await fetch(url);
+  const response = await fetch(url, {
+    signal: AbortSignal.timeout(4000),
+  });
 
   if (!response.ok) {
     throw new Error(`Open-Meteo API responded with status ${response.status}`);

@@ -11,6 +11,9 @@ const API_BASE_URL = "/api/recommend-crop";
 const defaultFormState = {
   state: "Andhra Pradesh",
   district: "West Godavari",
+  farmAddress: "",
+  latitude: null,
+  longitude: null,
   landArea: 5,
   budget: 50000,
   labour: "medium",
@@ -66,6 +69,24 @@ function App() {
 
   function updateField(field, value) {
     setFormState((current) => {
+      if (field === "locationSelection") {
+        return {
+          ...current,
+          farmAddress: value.address || current.farmAddress,
+          latitude:
+            typeof value.latitude === "number" ? value.latitude : current.latitude,
+          longitude:
+            typeof value.longitude === "number" ? value.longitude : current.longitude,
+          state: value.state || current.state,
+          district:
+            value.state && value.district
+              ? value.district
+              : value.state
+                ? (districts[value.state] || [])[0] || current.district
+                : value.district || current.district,
+        };
+      }
+
       if (field === "state") {
         return { ...current, state: value, district: (districts[value] || [])[0] || "" };
       }
@@ -119,20 +140,52 @@ function App() {
     setPhase2Result(null);
 
     try {
-      // In a real app we'd send FormData. For mock phase 2, basic post is fine.
       const formData = new FormData();
       if (data.files.report) formData.append("report", data.files.report);
       Object.keys(data.files.photos || {}).forEach(k => formData.append(`photo_${k}`, data.files.photos[k]));
       formData.append("answers", JSON.stringify(data.answers));
 
-      const response = await axios.post("/api/crop-health/analyze", formData);
-      setPhase2Result(response.data);
+      const selectedImage =
+        data.files.photos?.leaf ||
+        data.files.photos?.field ||
+        Object.values(data.files.photos || {}).find(Boolean);
+
+      const healthResponse = await axios.post("/api/crop-health/analyze", formData);
+      let diseaseResponse = null;
+
+      if (selectedImage) {
+        const diseaseFormData = new FormData();
+        diseaseFormData.append("image", selectedImage);
+
+        try {
+          diseaseResponse = await axios.post("/api/detect-disease", diseaseFormData);
+        } catch (_error) {
+          diseaseResponse = {
+            data: {
+              plant: "Unavailable",
+              health_status: "Unavailable",
+              disease_name: null,
+              confidence: 0,
+              vision_labels: [],
+              treatment: "Image disease detection is unavailable until the backend API keys are configured.",
+              warning: "Plant.id or Google Vision is not configured on the backend.",
+            },
+          };
+        }
+      }
+
+      const mergedResult = {
+        ...healthResponse.data,
+        diseaseDetection: diseaseResponse?.data || null,
+      };
+
+      setPhase2Result(mergedResult);
 
       const session = {
         id: Date.now(),
         date: new Date().toLocaleTimeString("en-IN", { hour: "2-digit", minute: "2-digit" }),
         stage: data.answers.stage || "Analysis",
-        result: response.data
+        result: mergedResult
       };
       setPhase2Sessions(prev => [session, ...prev]);
 

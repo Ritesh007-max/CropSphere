@@ -1,25 +1,58 @@
 const Crop = require("../Modules/crops");
 const Region = require("../Modules/region");
+const mongoose = require("mongoose");
 const { getWeatherForDistrict } = require("./weatherService");
 const { calculateCropScore } = require("../utils/scoring");
+const seedRegions = require("../seed-data/regions.json");
+const seedCrops = require("../seed-data/crops.json");
 
-async function getRegionOptions() {
-  const regionRows = await Region.find({}, { _id: 0, state: 1, district: 1 })
-    .sort({ state: 1, district: 1 })
-    .lean();
-
-  if (regionRows.length === 0) {
-    throw new Error("No regions found in MongoDB. Seed the database first.");
+async function loadRegions() {
+  if (mongoose.connection.readyState !== 1) {
+    return seedRegions;
   }
 
-  return regionRows.reduce((acc, row) => {
-    if (!acc[row.state]) {
-      acc[row.state] = [];
-    }
+  try {
+    const regionRows = await Region.find({}, { _id: 0, state: 1, district: 1 })
+      .sort({ state: 1, district: 1 })
+      .lean();
 
-    acc[row.state].push(row.district);
-    return acc;
-  }, {});
+    if (regionRows.length > 0) {
+      return regionRows.reduce((acc, row) => {
+        if (!acc[row.state]) {
+          acc[row.state] = [];
+        }
+
+        acc[row.state].push(row.district);
+        return acc;
+      }, {});
+    }
+  } catch (error) {
+    console.warn(`Region lookup fallback: ${error.message}`);
+  }
+
+  return seedRegions;
+}
+
+async function loadCrops() {
+  if (mongoose.connection.readyState !== 1) {
+    return seedCrops;
+  }
+
+  try {
+    const crops = await Crop.find({}).lean();
+
+    if (crops.length > 0) {
+      return crops;
+    }
+  } catch (error) {
+    console.warn(`Crop lookup fallback: ${error.message}`);
+  }
+
+  return seedCrops;
+}
+
+async function getRegionOptions() {
+  return loadRegions();
 }
 
 /**
@@ -54,10 +87,10 @@ async function recommendCrops(input) {
   }
 
   // Step 2: Score every crop in the dataset
-  const crops = await Crop.find({}).lean();
+  const crops = await loadCrops();
 
   if (crops.length === 0) {
-    throw new Error("No crops found in MongoDB. Seed the database first.");
+    throw new Error("No crops found in MongoDB or seed data.");
   }
 
   const scoredCrops = crops.map((crop) =>

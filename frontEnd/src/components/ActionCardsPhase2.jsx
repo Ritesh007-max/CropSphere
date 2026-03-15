@@ -11,9 +11,10 @@ function InfoRow({ label, value }) {
 }
 
 function ActionCardsPhase2({ result }) {
-  if (!result || !result.cards) return null;
+  if (!result) return null;
 
   const cards = result.cards;
+  const diseaseDetection = result.diseaseDetection;
 
   return (
     <div className="mt-8 animate-fade-in">
@@ -23,6 +24,35 @@ function ActionCardsPhase2({ result }) {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+        {diseaseDetection ? (
+          <div className="bg-gradient-to-br from-rose-50 to-orange-50 rounded-3xl p-6 border border-rose-200/60 shadow-sm relative overflow-hidden group hover:shadow-md transition-shadow">
+            <div className="absolute -right-4 -top-4 w-20 h-20 bg-rose-200/40 rounded-full blur-2xl group-hover:bg-rose-300/40 transition-colors"></div>
+            <div className="flex items-center gap-3 mb-4 relative">
+              <div className="w-10 h-10 rounded-xl bg-rose-100 flex items-center justify-center text-rose-600 shadow-sm border border-rose-200">
+                <Bug size={20} />
+              </div>
+              <h4 className="font-display font-bold text-rose-900 leading-tight">Image Health Detection</h4>
+            </div>
+            <div className="bg-white/60 rounded-xl p-3 border border-rose-100">
+              <InfoRow label="Plant" value={diseaseDetection.plant} />
+              <InfoRow label="Health" value={diseaseDetection.health_status} />
+              <InfoRow label="Disease" value={diseaseDetection.disease_name} />
+              <InfoRow
+                label="Confidence"
+                value={
+                  typeof diseaseDetection.confidence === "number"
+                    ? `${Math.round(diseaseDetection.confidence * 100)}%`
+                    : diseaseDetection.confidence
+                }
+              />
+              <InfoRow label="Labels" value={diseaseDetection.vision_labels} />
+              <InfoRow label="Treatment" value={diseaseDetection.treatment} />
+            </div>
+          </div>
+        ) : null}
+
+        {!cards ? null : (
+          <>
         {cards.fertilizerGuidance ? (
           <div className="bg-gradient-to-br from-green-50 to-emerald-50 rounded-3xl p-6 border border-green-200/60 shadow-sm relative overflow-hidden group hover:shadow-md transition-shadow">
             <div className="absolute -right-4 -top-4 w-20 h-20 bg-green-200/40 rounded-full blur-2xl group-hover:bg-green-300/40 transition-colors"></div>
@@ -138,6 +168,8 @@ function ActionCardsPhase2({ result }) {
             </div>
           </div>
         ) : null}
+          </>
+        )}
       </div>
     </div>
   );

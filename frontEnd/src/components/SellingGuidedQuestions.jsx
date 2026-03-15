@@ -1,6 +1,6 @@
 import { Package, Clock3, Truck, Users } from "lucide-react";
 
-const URGENCY_OPTIONS = ["Sell immediately", "Wait 3–5 days", "Ask the system for a recommendation"];
+const URGENCY_OPTIONS = ["Sell immediately", "Wait 3-5 days", "Ask the system for a recommendation"];
 const BUYER_OPTIONS = ["Mandi (local market)", "Contractor", "Local buyer", "Platform-assisted selling", "Request suggestion"];
 const QUALITY_OPTIONS = ["Strong looking lot", "Average lot", "Mixed / weak lot"];
 const DEFECT_OPTIONS = ["Low defects", "Moderate defects", "High defects"];
@@ -34,7 +34,7 @@ function SellingGuidedQuestions({ answers, onAnswerChange }) {
   return (
     <section className="bg-white/80 backdrop-blur border border-brand-200/70 rounded-3xl p-5 sm:p-6 shadow-sm">
       <div className="mb-5">
-        <span className="inline-flex items-center rounded-full bg-violet-50 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.18em] text-violet-700">
+        <span className="inline-flex items-center rounded-full bg-brand-50 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.18em] text-brand-700">
           Selling Context
         </span>
         <h3 className="mt-3 text-lg font-display font-bold text-gray-900">Selling Questions</h3>
@@ -42,9 +42,9 @@ function SellingGuidedQuestions({ answers, onAnswerChange }) {
       </div>
 
       <div className="grid grid-cols-1 gap-5 lg:grid-cols-[1.15fr,0.85fr]">
-        <div className="rounded-2xl border border-amber-100 bg-amber-50/50 p-4 sm:p-5">
+        <div className="rounded-2xl border border-brand-100 bg-brand-50/40 p-4 sm:p-5">
           <div className="flex items-center gap-2 mb-1">
-            <Package size={18} className="text-amber-600" />
+            <Package size={18} className="text-brand-600" />
             <h3 className="text-[14px] font-display font-bold text-gray-800">1. Quantity Available</h3>
           </div>
           <p className="text-[12px] text-gray-500 mb-4">Estimate how much produce is ready for sale.</p>
@@ -57,7 +57,7 @@ function SellingGuidedQuestions({ answers, onAnswerChange }) {
                 min="0"
                 value={answers.quantityValue || ""}
                 onChange={(event) => onAnswerChange("quantityValue", event.target.value)}
-                className="mt-2 w-full px-4 py-3 text-[13px] rounded-xl border border-amber-200 bg-white shadow-sm focus:ring-2 focus:ring-amber-400 outline-none"
+                className="mt-2 w-full px-4 py-3 text-[13px] rounded-xl border border-brand-200 bg-white shadow-sm focus:ring-2 focus:ring-brand-400 outline-none"
                 placeholder="e.g. 25"
               />
             </label>
@@ -66,7 +66,7 @@ function SellingGuidedQuestions({ answers, onAnswerChange }) {
               <select
                 value={answers.quantityUnit || "quintals"}
                 onChange={(event) => onAnswerChange("quantityUnit", event.target.value)}
-                className="mt-2 w-full px-4 py-3 text-[13px] rounded-xl border border-amber-200 bg-white shadow-sm focus:ring-2 focus:ring-amber-400 outline-none"
+                className="mt-2 w-full px-4 py-3 text-[13px] rounded-xl border border-brand-200 bg-white shadow-sm focus:ring-2 focus:ring-brand-400 outline-none"
               >
                 {UNITS.map((unit) => (
                   <option key={unit} value={unit}>{unit}</option>
@@ -78,7 +78,7 @@ function SellingGuidedQuestions({ answers, onAnswerChange }) {
           <div className="mt-4">
             <div className="flex items-center justify-between mb-2">
               <span className="text-[12px] font-semibold text-gray-600">Quick quantity slider</span>
-              <span className="text-[12px] font-bold text-amber-700">{answers.quantityValue || 0} {answers.quantityUnit || "quintals"}</span>
+              <span className="text-[12px] font-bold text-brand-700">{answers.quantityValue || 0} {answers.quantityUnit || "quintals"}</span>
             </div>
             <input
               type="range"
@@ -91,9 +91,9 @@ function SellingGuidedQuestions({ answers, onAnswerChange }) {
           </div>
         </div>
 
-        <div className="rounded-2xl border border-slate-200 bg-slate-50/70 p-4 sm:p-5">
+        <div className="rounded-2xl border border-brand-100 bg-white p-4 sm:p-5">
           <div className="flex items-center gap-2 mb-1">
-            <Users size={18} className="text-slate-600" />
+            <Users size={18} className="text-brand-600" />
             <h3 className="text-[14px] font-display font-bold text-gray-800">Crop and Quality Hints</h3>
           </div>
           <p className="text-[12px] text-gray-500 mb-4">Use a simple crop label and a visual quality estimate.</p>
@@ -103,7 +103,7 @@ function SellingGuidedQuestions({ answers, onAnswerChange }) {
               type="text"
               value={answers.cropType || ""}
               onChange={(event) => onAnswerChange("cropType", event.target.value)}
-              className="mt-2 w-full px-4 py-3 text-[13px] rounded-xl border border-slate-200 bg-white shadow-sm focus:ring-2 focus:ring-slate-300 outline-none"
+              className="mt-2 w-full px-4 py-3 text-[13px] rounded-xl border border-brand-200 bg-white shadow-sm focus:ring-2 focus:ring-brand-300 outline-none"
               placeholder="e.g. Paddy, Tomato, Onion"
             />
           </label>
@@ -119,7 +119,7 @@ function SellingGuidedQuestions({ answers, onAnswerChange }) {
                       onAnswerChange("qualityLabel", option);
                       onAnswerChange("qualitySignal", mapQualitySignal(option));
                     }}
-                    activeClass="border-slate-400 bg-white text-slate-800 shadow-sm"
+                    activeClass="border-brand-400 bg-brand-50 text-brand-800 shadow-sm"
                   >
                     {option}
                   </ToggleButton>
@@ -137,7 +137,7 @@ function SellingGuidedQuestions({ answers, onAnswerChange }) {
                       onAnswerChange("defectLabel", option);
                       onAnswerChange("defectLevel", mapDefectLevel(option));
                     }}
-                    activeClass="border-slate-400 bg-white text-slate-800 shadow-sm"
+                    activeClass="border-brand-400 bg-brand-50 text-brand-800 shadow-sm"
                   >
                     {option}
                   </ToggleButton>
@@ -149,9 +149,9 @@ function SellingGuidedQuestions({ answers, onAnswerChange }) {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 mt-5">
-        <div className="rounded-2xl border border-rose-100 bg-rose-50/60 p-4 sm:p-5">
+        <div className="rounded-2xl border border-brand-100 bg-white p-4 sm:p-5">
           <div className="flex items-center gap-2 mb-1">
-            <Clock3 size={18} className="text-rose-600" />
+            <Clock3 size={18} className="text-brand-600" />
             <h3 className="text-[14px] font-display font-bold text-gray-800">2. Selling Urgency</h3>
           </div>
           <p className="text-[12px] text-gray-500 mb-4">How urgently do you need to convert this crop into a sale?</p>
@@ -161,7 +161,7 @@ function SellingGuidedQuestions({ answers, onAnswerChange }) {
                 key={option}
                 active={(answers.sellingUrgency || "Ask the system for a recommendation") === option}
                 onClick={() => onAnswerChange("sellingUrgency", option)}
-                activeClass="border-rose-400 bg-white text-rose-700 shadow-sm"
+                activeClass="border-brand-400 bg-brand-50 text-brand-700 shadow-sm"
               >
                 {option}
               </ToggleButton>
@@ -169,9 +169,9 @@ function SellingGuidedQuestions({ answers, onAnswerChange }) {
           </div>
         </div>
 
-        <div className="rounded-2xl border border-emerald-100 bg-emerald-50/60 p-4 sm:p-5">
+        <div className="rounded-2xl border border-brand-100 bg-brand-50/40 p-4 sm:p-5">
           <div className="flex items-center gap-2 mb-1">
-            <Truck size={18} className="text-emerald-600" />
+            <Truck size={18} className="text-brand-600" />
             <h3 className="text-[14px] font-display font-bold text-gray-800">3. Storage and Transport Readiness</h3>
           </div>
           <p className="text-[12px] text-gray-500 mb-4">These two factors strongly affect whether holding or moving the lot is practical.</p>
@@ -179,14 +179,14 @@ function SellingGuidedQuestions({ answers, onAnswerChange }) {
             <ToggleButton
               active={answers.storageAvailable === "yes"}
               onClick={() => onAnswerChange("storageAvailable", answers.storageAvailable === "yes" ? "no" : "yes")}
-              activeClass="border-emerald-400 bg-white text-emerald-700 shadow-sm"
+              activeClass="border-brand-400 bg-white text-brand-700 shadow-sm"
             >
               Storage available
             </ToggleButton>
             <ToggleButton
               active={answers.transportArranged === "yes"}
               onClick={() => onAnswerChange("transportArranged", answers.transportArranged === "yes" ? "no" : "yes")}
-              activeClass="border-emerald-400 bg-white text-emerald-700 shadow-sm"
+              activeClass="border-brand-400 bg-white text-brand-700 shadow-sm"
             >
               Transport arranged
             </ToggleButton>
@@ -194,9 +194,9 @@ function SellingGuidedQuestions({ answers, onAnswerChange }) {
         </div>
       </div>
 
-      <div className="rounded-2xl border border-sky-100 bg-sky-50/60 p-4 sm:p-5 mt-5">
+      <div className="rounded-2xl border border-brand-100 bg-white p-4 sm:p-5 mt-5">
         <div className="flex items-center gap-2 mb-1">
-          <Users size={18} className="text-sky-600" />
+          <Users size={18} className="text-brand-600" />
           <h3 className="text-[14px] font-display font-bold text-gray-800">4. Buyer Preference</h3>
         </div>
         <p className="text-[12px] text-gray-500 mb-4">Choose a preferred selling channel, or ask the system to suggest one.</p>
@@ -206,7 +206,7 @@ function SellingGuidedQuestions({ answers, onAnswerChange }) {
               key={option}
               active={(answers.buyerPreference || "Request suggestion") === option}
               onClick={() => onAnswerChange("buyerPreference", option)}
-              activeClass="border-sky-400 bg-white text-sky-700 shadow-sm"
+              activeClass="border-brand-400 bg-brand-50 text-brand-700 shadow-sm"
             >
               {option}
             </ToggleButton>
