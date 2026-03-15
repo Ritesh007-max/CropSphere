@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import axios from "axios";
 import ChatInterface from "./components/ChatInterface";
 import CropHealthInterface from "./components/CropHealthInterface";
@@ -74,19 +74,6 @@ function App() {
   const [sellingResult, setSellingResult] = useState(null);
   const [sellingSessions, setSellingSessions] = useState([]);
   const [sellingSidebarOpen, setSellingSidebarOpen] = useState(false);
-
-  useEffect(() => {
-    let ignore = false;
-    axios
-      .get(`${API_BASE_URL}/regions`)
-      .then((response) => {
-        if (!ignore) setDistricts(response.data);
-      })
-      .catch(() => {
-        if (!ignore) setDistricts(regionOptions);
-      });
-    return () => { ignore = true; };
-  }, []);
 
   function updateField(field, value) {
     setFormState((current) => {

@@ -6,11 +6,11 @@ const { detectVisionLabels } = require("../Services/visionService");
 function buildNoDiseaseResponse(visionLabels = []) {
   return {
     plant: "Unknown",
-    health_status: "Unknown",
+    health_status: "Unavailable",
     disease_name: null,
     confidence: 0,
     vision_labels: visionLabels,
-    treatment: "No disease detected from the uploaded image.",
+    treatment: "Image disease detection is currently unavailable.",
   };
 }
 
@@ -62,15 +62,14 @@ async function detectDisease(req, res) {
           };
 
     if (visionOutcome.status === "rejected" && plantOutcome.status === "rejected") {
-      const statusCode =
-        plantOutcome.reason?.statusCode ||
-        visionOutcome.reason?.statusCode ||
-        502;
-      return res.status(statusCode).json({
-        error:
+      return res.json({
+        ...buildNoDiseaseResponse(),
+        warning:
           plantOutcome.reason?.message ||
           visionOutcome.reason?.message ||
-          "Disease detection failed.",
+          "Disease detection providers are unavailable.",
+        diseases: [],
+        vision_raw: [],
       });
     }
 
