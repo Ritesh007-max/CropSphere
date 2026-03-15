@@ -4,6 +4,7 @@ import ChatInterface from "./components/ChatInterface";
 import CropHealthInterface from "./components/CropHealthInterface";
 import HarvestInterface from "./components/HarvestInterface";
 import SellingInterface from "./components/SellingInterface";
+import AuthInterface from "./components/AuthInterface";
 import { regionOptions } from "./data/options";
 
 const API_BASE_URL = "/api/recommend-crop";
@@ -21,6 +22,26 @@ const defaultFormState = {
 };
 
 function App() {
+  // Auth state
+  const [token, setToken] = useState(() => localStorage.getItem("cropsphere_token"));
+  const [user, setUser] = useState(() => {
+    try { return JSON.parse(localStorage.getItem("cropsphere_user")); } catch { return null; }
+  });
+
+  function handleLogin(newToken, newUser) {
+    localStorage.setItem("cropsphere_token", newToken);
+    localStorage.setItem("cropsphere_user", JSON.stringify(newUser));
+    setToken(newToken);
+    setUser(newUser);
+  }
+
+  function handleLogout() {
+    localStorage.removeItem("cropsphere_token");
+    localStorage.removeItem("cropsphere_user");
+    setToken(null);
+    setUser(null);
+  }
+
   const [formState, setFormState] = useState(defaultFormState);
   const [districts, setDistricts] = useState(regionOptions);
   
@@ -267,6 +288,11 @@ function App() {
     setSellingSidebarOpen(false);
   }
 
+  // If not logged in, show auth screen
+  if (!token) {
+    return <AuthInterface onLogin={handleLogin} />;
+  }
+
   if (currentPhase === "health") {
     return (
       <CropHealthInterface
@@ -280,6 +306,8 @@ function App() {
         loading={phase2Loading}
         errorMessage={phase2Error}
         result={phase2Result}
+        user={user}
+        onLogout={handleLogout}
       />
     );
   }
@@ -297,6 +325,8 @@ function App() {
         loading={harvestLoading}
         errorMessage={harvestError}
         result={harvestResult}
+        user={user}
+        onLogout={handleLogout}
       />
     );
   }
@@ -314,6 +344,8 @@ function App() {
         loading={sellingLoading}
         errorMessage={sellingError}
         result={sellingResult}
+        user={user}
+        onLogout={handleLogout}
       />
     );
   }
@@ -335,6 +367,8 @@ function App() {
       onFilterChange={setActiveFilter}
       sidebarOpen={sidebarOpen}
       onToggleSidebar={() => setSidebarOpen(!sidebarOpen)}
+      user={user}
+      onLogout={handleLogout}
     />
   );
 }
